@@ -371,7 +371,7 @@ ostrstream    |   330.824 | ×0.813  |
 ostringstream |   364.624 | ×0.737  |
 dragon4       |   562.430 | ×0.478  |
 
-
+![results/Random_result.png](results/Random_result.png)
 #### 3. RandomDigit
 The following are results measured by `RandomDigit` testcase.
 The speedup is based on `sprintf`'s _Sum_ values.
