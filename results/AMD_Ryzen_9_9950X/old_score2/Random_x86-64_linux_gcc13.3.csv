@@ -1,0 +1,22 @@
+AMD Ryzen 9 9950X 16-Core Processor            
+Type:Random
+Function,Time(ns)
+null,1.081230
+d2sci_32v,1.219643
+d2sci_32,1.232338
+d2s_32v,2.368668
+d2sci,3.201347
+ryu,24.280846
+erthink,30.067291
+erthink_shodan,31.981895
+floaxie,32.394150
+emyg,43.428108
+grisu2,48.769638
+milo,50.519142
+fpconv,56.808510
+doubleconv,59.591476
+stb,60.514938
+fmt,61.745338
+sprintf,267.443993
+ostrstream,344.698586
+ostringstream,378.272812

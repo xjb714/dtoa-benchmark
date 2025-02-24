@@ -540,7 +540,7 @@ struct BCinfo {
 
 #ifdef __cplusplus
 extern "C" double strtod(const char *s00, char **se);
-extern "C" char *dtoa(double d, int mode, int ndigits, int *decpt, int *sign,
+extern "C" char *dtoa_gay(double d, int mode, int ndigits, int *decpt, int *sign,
                       char **rve);
 #endif
 
@@ -3632,7 +3632,7 @@ void
  *	   calculation.
  */
 
-char *dtoa
+char *dtoa_gay
 #ifdef KR_headers
     (dd, mode, ndigits, decpt, sign, rve) double dd;
 int mode, ndigits, *decpt, *sign;

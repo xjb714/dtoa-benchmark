@@ -1,0 +1,21 @@
+AMD Ryzen 7 7840H w/ Radeon 780M Graphics      
+Type:Random
+Function,Time(ns)
+null,1.464388
+d2sci_32v,1.993164
+d2sci_32,2.019271
+d2sci,3.996126
+erthink,17.978841
+ryu,18.739095
+erthink_shodan,19.946566
+emyg,25.161865
+floaxie,31.105501
+milo,34.699886
+fmt,42.170199
+grisu2,46.034652
+fpconv,46.382861
+doubleconv,52.017855
+stb,63.324186
+sprintf,320.203711
+ostrstream,411.906315
+ostringstream,463.456755

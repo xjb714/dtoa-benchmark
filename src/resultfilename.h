@@ -1,7 +1,8 @@
 #pragma once
 
 #ifndef MACHINE
-#define MACHINE "unknown"
+    //#define MACHINE "unknown"
+    #define MACHINE "x86-64"
 #endif
 
 #if defined(_WIN64)
@@ -30,7 +31,8 @@
 #endif
 
 #ifndef OS
-#define OS "unknown"
+    //#define OS "unknown"
+    #define OS "linux"
 #endif
 
 #define STR_HELPER(x) #x

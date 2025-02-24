@@ -7,7 +7,15 @@ if(POLICY CMP0025)
   cmake_policy(SET CMP0025 NEW)
 endif()
 
+set(CMAKE_CXX_STANDARD 20)
+
 project(d2a-benchmark C CXX)
+
+# set(CMAKE_CXX_COMPILER g++-14)
+# set(CMAKE_CXX_COMPILER clang++)
+# set(CMAKE_CXX_COMPILER icpx)
+
+add_compile_options(-O3 -mavx512f -march=native -funroll-loops)
 
 #
 # Set default build type to Release. This is to ease a User's life.
@@ -49,19 +57,23 @@ set(SOURCES
   src/emyg/emyg_dtoa.h
   src/emygtest.cpp
 
+  #src/d2sci/d2sci.cpp
+  src/d2sci/d2sci.h
+  src/d2sci_test.cpp
+
   src/erthink/erthink.h
   src/erthink/erthink_arch.h
   src/erthink/erthink_bswap.h
   src/erthink/erthink_byteorder.h
   src/erthink/erthink_carryadd.h
-  src/erthink/erthink_clz.h
-  src/erthink/erthink_d2a.h
+  src/erthink/erthink_clz.h++
+  src/erthink/erthink_d2a.h++
   src/erthink/erthink_defs.h
   src/erthink/erthink_intrin.h
-  src/erthink/erthink_misc.h
+  src/erthink/erthink_misc.h++
   src/erthink/erthink_mul.h
   src/erthink/erthink_rot.h
-  src/erthink/erthink_u2a.h
+  src/erthink/erthink_u2a.h++
   src/erthink_test.cpp
 
   src/ryu/common.h
@@ -142,12 +154,35 @@ set(SOURCES
   src/grisu/prettify.h
   src/grisu2btest.cpp
 
+  src/Grisu_Exact/fp_to_chars.h
+  src/Grisu_Exact/fp_to_chars.cpp
+  src/Grisu_Exact/grisu_exact.h
+  src/grisu_exact_test.cpp
+
+  src/dragonbox/dragonbox.h
+  src/dragonbox/dragonbox.cc
+  src/dragonbox_test.cpp
+
+  src/schubfach/schubfach_64.cc
+  src/schubfach_test.cpp
+  
+  src/dragon4/Dragon4.cpp
+  src/dragon4/PrintFloat.cpp
+  src/dragon4/Math.cpp
+  src/dragon4_test.cpp
+
+  # src/errol/errol.c
+  # src/errol_test.cpp
+
+  src/std_format_test.cpp
+
   src/milo/dtoa_milo.h src/milotest.cpp
   src/msinttypes/inttypes.h src/msinttypes/stdint.h
 
   src/ostringstream.cpp
   src/ostrstream.cpp
   src/sprintf.cpp
+  src/to_chars_test.cpp
 
   src/resultfilename.h
   src/test.h
@@ -161,6 +196,8 @@ add_executable(d2a-benchmark ${SOURCES})
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_compile_definitions(d2a-benchmark PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
+
+
 
 if(NOT DEFINED CXX_STANDARD)
   list(FIND CMAKE_CXX_COMPILE_FEATURES cxx_std_17 HAS_CXX17)
@@ -179,3 +216,6 @@ if(DEFINED CXX_STANDARD)
   message(STATUS "Use C++${CXX_STANDARD}")
   target_compile_features(d2a-benchmark PRIVATE cxx_std_11)
 endif()
+
+target_link_directories(d2a-benchmark PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}//src//d2sci")
+target_link_libraries(d2a-benchmark d2sci2)

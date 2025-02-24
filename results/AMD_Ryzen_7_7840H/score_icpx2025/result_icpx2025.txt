@@ -1,0 +1,202 @@
+CPU Name: AMD Ryzen 7 7840H w/ Radeon 780M Graphics      
+Verifying d2s_32v... OK. Length Avg = 22.563, Max = 24
+Verifying d2s_avx512... OK. Length Avg = 22.498, Max = 26
+Verifying d2s_sse... OK. Length Avg = 22.503, Max = 26
+Verifying d2sci... OK. Length Avg = 23.176, Max = 24
+Verifying d2sci_32... OK. Length Avg = 23.178, Max = 24
+Verifying d2sci_32v... OK. Length Avg = 23.183, Max = 24
+Verifying d2sci_sse... OK. Length Avg = 23.174, Max = 24
+Verifying doubleconv... OK. Length Avg = 22.418, Max = 25
+Verifying dragon4... OK. Length Avg = 22.888, Max = 24
+Verifying dragonbox... OK. Length Avg = 22.454, Max = 26
+Verifying emyg... OK. Length Avg = 21.978, Max = 25
+Verifying erthink... OK. Length Avg = 21.525, Max = 23
+Verifying erthink_shodan... OK. Length Avg = 22.480, Max = 24
+Verifying floaxie... OK. Length Avg = 21.974, Max = 24
+Verifying fmt... OK. Length Avg = 22.448, Max = 24
+Verifying format... OK. Length Avg = 22.927, Max = 24
+Verifying fpconv... OK. Length Avg = 22.437, Max = 25
+Verifying grisu2... OK. Length Avg = 21.966, Max = 25
+Verifying grisu_exact... OK. Length Avg = 22.033, Max = 24
+Verifying milo... OK. Length Avg = 21.973, Max = 25
+Verifying ostringstream... OK. Length Avg = 22.952, Max = 24
+Verifying ostrstream... OK. Length Avg = 22.943, Max = 24
+Verifying ryu... OK. Length Avg = 22.035, Max = 24
+Verifying schubfach... OK. Length Avg = 22.459, Max = 26
+Verifying sprintf... OK. Length Avg = 22.941, Max = 24
+Verifying stb...: roundtrip fail 3.3333333333333335 -> '3.3333333333333338' -> 3.3333333333333339
+Verifying to_chars... OK. Length Avg = 24.177, Max = 25
+Benchmarking  sequential d2s_32v... Done
+Benchmarking  sequential d2s_avx512... Done
+Benchmarking  sequential d2s_sse... Done
+Benchmarking  sequential d2sci... Done
+Benchmarking  sequential d2sci_32... Done
+Benchmarking  sequential d2sci_32v... Done
+Benchmarking  sequential d2sci_sse... Done
+Benchmarking  sequential doubleconv... Done
+Benchmarking  sequential dragon4... Done
+Benchmarking  sequential dragonbox... Done
+Benchmarking  sequential emyg... Done
+Benchmarking  sequential erthink... Done
+Benchmarking  sequential erthink_shodan... Done
+Benchmarking  sequential floaxie... Done
+Benchmarking  sequential fmt... Done
+Benchmarking  sequential format... Done
+Benchmarking  sequential fpconv... Done
+Benchmarking  sequential grisu2... Done
+Benchmarking  sequential grisu_exact... Done
+Benchmarking  sequential milo... Done
+Benchmarking  sequential null... Done
+Benchmarking  sequential ostringstream... Done
+Benchmarking  sequential ostrstream... Done
+Benchmarking  sequential ryu... Done
+Benchmarking  sequential schubfach... Done
+Benchmarking  sequential sprintf... Done
+Benchmarking  sequential stb... Done
+Benchmarking  sequential to_chars... Done
+Function      |  Min ns |  RMS ns  |  Max ns |   Sum ns  | Speedup |
+:-------------|--------:|---------:|--------:|----------:|--------:|
+null          |   1.449 |     1.452 |    1.456 |    24.684 | ×78.533 |
+d2sci_32      |   1.945 |     1.957 |    1.986 |    33.271 | ×58.266 |
+d2sci_32v     |   1.978 |     1.983 |    1.986 |    33.715 | ×57.497 |
+d2sci         |   3.927 |     3.942 |    3.959 |    67.007 | ×28.930 |
+d2s_avx512    |   2.437 |     4.150 |    6.194 |    67.477 | ×28.729 |
+d2s_sse       |   2.824 |     4.113 |    6.212 |    67.480 | ×28.727 |
+d2s_32v       |   4.157 |     4.169 |    4.205 |    70.873 | ×27.352 |
+d2sci_sse     |   5.013 |     5.062 |    5.085 |    86.053 | ×22.527 |
+erthink       |   3.697 |     6.490 |    9.221 |   105.356 | ×18.400 |
+schubfach     |   4.914 |     6.559 |    8.437 |   109.332 | ×17.731 |
+dragonbox     |   4.865 |     6.575 |    8.086 |   109.826 | ×17.651 |
+ryu           |   6.107 |     8.325 |   10.318 |   140.212 | ×13.826 |
+erthink_shodan|   8.484 |    13.675 |   19.165 |   225.512 | ×8.596  |
+grisu_exact   |  12.230 |    13.414 |   14.750 |   227.671 | ×8.515  |
+emyg          |   8.376 |    16.271 |   21.387 |   269.141 | ×7.203  |
+milo          |  14.350 |    21.202 |   25.130 |   356.863 | ×5.432  |
+floaxie       |  18.146 |    23.827 |   29.012 |   399.996 | ×4.846  |
+fmt           |  18.392 |    25.576 |   31.004 |   430.247 | ×4.506  |
+doubleconv    |  21.496 |    29.819 |   39.743 |   499.844 | ×3.878  |
+to_chars      |  25.179 |    30.212 |   33.038 |   512.563 | ×3.782  |
+fpconv        |  20.677 |    31.708 |   41.978 |   526.791 | ×3.680  |
+grisu2        |  23.963 |    32.242 |   42.520 |   539.946 | ×3.590  |
+stb           |  35.487 |    40.572 |   44.339 |   688.198 | ×2.817  |
+format        |  81.678 |    88.652 |   94.133 |  1506.009 | ×1.287  |
+sprintf       |  69.453 |   117.236 |  163.107 |  1938.529 | ×1.000  |
+dragon4       |  30.780 |   126.909 |  212.060 |  1958.764 | ×0.990  |
+ostrstream    | 146.574 |   193.981 |  239.962 |  3264.966 | ×0.594  |
+ostringstream | 149.717 |   198.435 |  257.071 |  3332.677 | ×0.582  |
+Benchmarking      random d2s_32v... Done
+Benchmarking      random d2s_avx512... Done
+Benchmarking      random d2s_sse... Done
+Benchmarking      random d2sci... Done
+Benchmarking      random d2sci_32... Done
+Benchmarking      random d2sci_32v... Done
+Benchmarking      random d2sci_sse... Done
+Benchmarking      random doubleconv... Done
+Benchmarking      random dragon4... Done
+Benchmarking      random dragonbox... Done
+Benchmarking      random emyg... Done
+Benchmarking      random erthink... Done
+Benchmarking      random erthink_shodan... Done
+Benchmarking      random floaxie... Done
+Benchmarking      random fmt... Done
+Benchmarking      random format... Done
+Benchmarking      random fpconv... Done
+Benchmarking      random grisu2... Done
+Benchmarking      random grisu_exact... Done
+Benchmarking      random milo... Done
+Benchmarking      random null... Done
+Benchmarking      random ostringstream... Done
+Benchmarking      random ostrstream... Done
+Benchmarking      random ryu... Done
+Benchmarking      random schubfach... Done
+Benchmarking      random sprintf... Done
+Benchmarking      random stb... Done
+Benchmarking      random to_chars... Done
+Function      |   Sum ns  | Speedup |
+:-------------|----------:|--------:|
+null          |     1.457 | ×219.563 |
+d2sci_32      |     2.016 | ×158.665 |
+d2sci_32v     |     2.022 | ×158.143 |
+d2sci         |     3.995 | ×80.056 |
+d2s_32v       |     4.220 | ×75.786 |
+d2sci_sse     |     5.167 | ×61.891 |
+d2s_avx512    |    12.376 | ×25.843 |
+d2s_sse       |    13.257 | ×24.125 |
+dragonbox     |    21.026 | ×15.211 |
+schubfach     |    23.088 | ×13.852 |
+grisu_exact   |    27.169 | ×11.772 |
+ryu           |    27.444 | ×11.654 |
+erthink       |    30.525 | ×10.477 |
+erthink_shodan|    33.293 | ×9.606  |
+floaxie       |    37.597 | ×8.507  |
+emyg          |    44.682 | ×7.158  |
+milo          |    55.404 | ×5.773  |
+to_chars      |    55.892 | ×5.722  |
+grisu2        |    59.237 | ×5.399  |
+stb           |    60.387 | ×5.296  |
+fmt           |    60.486 | ×5.288  |
+fpconv        |    61.051 | ×5.239  |
+doubleconv    |    65.929 | ×4.851  |
+format        |   111.041 | ×2.880  |
+sprintf       |   319.822 | ×1.000  |
+ostrstream    |   399.448 | ×0.801  |
+ostringstream |   448.844 | ×0.713  |
+dragon4       |   682.604 | ×0.469  |
+Benchmarking randomdigit d2s_32v... Done
+Benchmarking randomdigit d2s_avx512... Done
+Benchmarking randomdigit d2s_sse... Done
+Benchmarking randomdigit d2sci... Done
+Benchmarking randomdigit d2sci_32... Done
+Benchmarking randomdigit d2sci_32v... Done
+Benchmarking randomdigit d2sci_sse... Done
+Benchmarking randomdigit doubleconv... Done
+Benchmarking randomdigit dragon4... Done
+Benchmarking randomdigit dragonbox... Done
+Benchmarking randomdigit emyg... Done
+Benchmarking randomdigit erthink... Done
+Benchmarking randomdigit erthink_shodan... Done
+Benchmarking randomdigit floaxie... Done
+Benchmarking randomdigit fmt... Done
+Benchmarking randomdigit format... Done
+Benchmarking randomdigit fpconv... Done
+Benchmarking randomdigit grisu2... Done
+Benchmarking randomdigit grisu_exact... Done
+Benchmarking randomdigit milo... Done
+Benchmarking randomdigit null... Done
+Benchmarking randomdigit ostringstream... Done
+Benchmarking randomdigit ostrstream... Done
+Benchmarking randomdigit ryu... Done
+Benchmarking randomdigit schubfach... Done
+Benchmarking randomdigit sprintf... Done
+Benchmarking randomdigit stb... Done
+Benchmarking randomdigit to_chars... Done
+Function      |  Min ns |  RMS ns  |  Max ns |   Sum ns  | Speedup |
+:-------------|--------:|---------:|--------:|----------:|--------:|
+null          |   0.860 |     0.882 |    1.146 |    14.951 | ×350.749 |
+d2sci_32      |   1.993 |     2.006 |    2.041 |    34.095 | ×153.812 |
+d2sci_32v     |   2.016 |     2.019 |    2.033 |    34.331 | ×152.752 |
+d2sci         |   4.022 |     4.081 |    4.137 |    69.369 | ×75.599 |
+d2s_32v       |   4.214 |     4.233 |    4.270 |    71.968 | ×72.868 |
+d2sci_sse     |   5.148 |     5.173 |    5.181 |    87.948 | ×59.628 |
+d2s_avx512    |  12.380 |    12.468 |   12.592 |   211.953 | ×24.742 |
+d2s_sse       |  13.156 |    13.259 |   13.421 |   225.402 | ×23.266 |
+dragonbox     |  11.396 |    14.762 |   20.981 |   247.612 | ×21.179 |
+schubfach     |  14.028 |    17.133 |   23.027 |   288.860 | ×18.155 |
+erthink_shodan|  18.405 |    23.747 |   32.668 |   399.594 | ×13.124 |
+erthink       |  19.414 |    24.174 |   30.045 |   408.053 | ×12.852 |
+grisu_exact   |  23.773 |    25.214 |   27.150 |   428.450 | ×12.240 |
+floaxie       |  16.449 |    27.564 |   36.465 |   457.247 | ×11.469 |
+ryu           |  27.488 |    33.405 |   38.077 |   564.940 | ×9.283  |
+emyg          |  29.201 |    39.294 |   44.566 |   664.738 | ×7.889  |
+milo          |  29.223 |    44.204 |   55.167 |   742.370 | ×7.064  |
+grisu2        |  36.976 |    47.711 |   59.459 |   802.218 | ×6.537  |
+fmt           |  35.566 |    47.920 |   60.238 |   808.531 | ×6.486  |
+fpconv        |  43.013 |    51.472 |   60.779 |   872.200 | ×6.013  |
+doubleconv    |  37.032 |    52.767 |   65.665 |   889.247 | ×5.897  |
+to_chars      |  55.855 |    56.411 |   57.355 |   958.949 | ×5.469  |
+stb           |  57.617 |    60.338 |   61.665 |  1025.643 | ×5.113  |
+format        | 110.765 |   113.737 |  115.794 |  1933.427 | ×2.712  |
+sprintf       | 284.339 |   308.698 |  322.342 |  5244.180 | ×1.000  |
+ostrstream    | 364.169 |   388.201 |  401.881 |  6596.561 | ×0.795  |
+dragon4       | 154.687 |   457.560 |  682.640 |  7268.582 | ×0.721  |
+ostringstream | 402.141 |   432.116 |  452.970 |  7340.148 | ×0.714  |

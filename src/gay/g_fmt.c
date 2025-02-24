@@ -25,16 +25,16 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern char *dtoa(double, int, int, int *, int *, char **);
+extern char *dtoa_gay(double, int, int, int *, int *, char **);
 extern char *g_fmt(char *, double);
 extern void freedtoa(char *);
 #ifdef __cplusplus
 }
 #endif
 
-char *g_fmt(register char *b, double x) {
-  register int i, k;
-  register char *s;
+char *g_fmt(char *b, double x) {
+   int i, k;
+   char *s;
   int decpt, j, sign;
   char *b0, *s0, *se;
 
@@ -46,7 +46,7 @@ char *g_fmt(register char *b, double x) {
     goto done;
   }
 #endif
-  s = s0 = dtoa(x, 0, 0, &decpt, &sign, &se);
+  s = s0 = dtoa_gay(x, 0, 0, &decpt, &sign, &se);
   if (sign)
     *b++ = '-';
   if (decpt == 9999) /* Infinity or Nan */ {

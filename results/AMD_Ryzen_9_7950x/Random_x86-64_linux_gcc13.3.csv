@@ -1,0 +1,21 @@
+AMD Ryzen 9 7950X 16-Core Processor            
+Type:Random
+Function,Time(ns)
+null,1.361979
+d2sci_32v,1.734538
+d2sci_32,1.795915
+d2sci,3.575033
+erthink,16.586263
+ryu,17.450358
+erthink_shodan,18.530762
+emyg,24.267725
+floaxie,29.252441
+milo,32.046224
+fmt,41.303206
+fpconv,43.092448
+grisu2,43.943831
+doubleconv,46.914046
+stb,65.214827
+sprintf,297.643978
+ostrstream,375.843359
+ostringstream,426.914616

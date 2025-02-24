@@ -315,6 +315,7 @@ template <typename PRINTER>
 inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
                         int &inout_exp10, const uint64_t value,
                         unsigned shift) {
+                          //printf("shift=%d\n", shift);
   uint64_t mask = UINT64_MAX >> (64 - shift);
   const uint64_t gap = top - value;
 
@@ -323,6 +324,7 @@ inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
   uint64_t tail = top & mask;
   int kappa = dec_digits(body);
   assert(kappa > 0);
+  //printf("kappa=%d body=%d\n", kappa,body);
 
   do {
     switch (--kappa) {
@@ -370,6 +372,7 @@ inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
       if (unlikely(tail < delta)) {
       early_last:
         printer.mantissa_digit(static_cast<char>(digit) + '0');
+        //printf("digit=%d tail=%llu\n", digit, tail);
       early_skip:
         inout_exp10 += kappa;
         assert(kappa >= 0);
@@ -466,6 +469,7 @@ done:
     tail *= 10;
     delta *= 10;
     digit = static_cast<uint_fast32_t>(tail >> shift);
+    //printf("shift=%d tail=%llx digit=%d\n",shift,tail,digit);
     tail &= mask;
 #endif /* ERTHINK_D2A_AVOID_MUL */
   }
@@ -500,6 +504,7 @@ inline void convert(PRINTER &printer, diy_fp diy) cxx11_noexcept {
   // normalize
   assert(diy.f <= UINT64_MAX / 2 && lead_zeros > 1);
   diy.e -= lead_zeros;
+  //printf("diy.e=%d diy.f=%llx\n", diy.e, diy.f);
   diy.f <<= lead_zeros;
   int exp10;
   const diy_fp dec_factor = grisu::cached_power(diy.e, exp10);
@@ -508,7 +513,8 @@ inline void convert(PRINTER &printer, diy_fp diy) cxx11_noexcept {
   const int mojo = diy.f > UINT64_C(0x80000000000007ff) ? 64 : 65;
   const uint64_t delta = dec_factor.f >> (mojo - lead_zeros);
   assert(delta >= 2);
-  const uint_fast32_t lsb = diy.scale(dec_factor);
+  const uint_fast32_t lsb = diy.scale(dec_factor);//1 or 0
+  //printf("lsb=%d\n",lsb);
   if (printer.is_accurate())
     // -1 -2 1 0 1: non-shortest 9522 for 25M probes, ratio 0.038088%
     //              shortest errors: +5727 -9156

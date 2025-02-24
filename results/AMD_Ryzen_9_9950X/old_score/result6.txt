@@ -1,0 +1,132 @@
+CPU Name: AMD Ryzen 9 9950X 16-Core Processor            
+Verifying d2sci... OK. Length Avg = 23.175, Max = 24
+Verifying d2sci_32... OK. Length Avg = 23.174, Max = 24
+Verifying d2sci_32v... OK. Length Avg = 23.178, Max = 24
+Verifying doubleconv... OK. Length Avg = 22.432, Max = 25
+Verifying emyg... OK. Length Avg = 21.985, Max = 25
+Verifying erthink... OK. Length Avg = 21.520, Max = 23
+Verifying erthink_shodan... OK. Length Avg = 22.472, Max = 24
+Verifying floaxie... OK. Length Avg = 21.978, Max = 24
+Verifying fmt... OK. Length Avg = 22.449, Max = 24
+Verifying fpconv... OK. Length Avg = 22.454, Max = 25
+Verifying grisu2... OK. Length Avg = 21.984, Max = 25
+Verifying milo... OK. Length Avg = 21.983, Max = 25
+Verifying ostringstream... OK. Length Avg = 22.945, Max = 24
+Verifying ostrstream... OK. Length Avg = 22.942, Max = 24
+Verifying ryu... OK. Length Avg = 22.033, Max = 24
+Verifying sprintf... OK. Length Avg = 22.947, Max = 24
+Verifying stb... OK. Length Avg = 22.948, Max = 24
+Benchmarking  sequential d2sci... Done
+Benchmarking  sequential d2sci_32... Done
+Benchmarking  sequential d2sci_32v... Done
+Benchmarking  sequential doubleconv... Done
+Benchmarking  sequential emyg... Done
+Benchmarking  sequential erthink... Done
+Benchmarking  sequential erthink_shodan... Done
+Benchmarking  sequential floaxie... Done
+Benchmarking  sequential fmt... Done
+Benchmarking  sequential fpconv... Done
+Benchmarking  sequential grisu2... Done
+Benchmarking  sequential milo... Done
+Benchmarking  sequential null... Done
+Benchmarking  sequential ostringstream... Done
+Benchmarking  sequential ostrstream... Done
+Benchmarking  sequential ryu... Done
+Benchmarking  sequential sprintf... Done
+Benchmarking  sequential stb... Done
+Function      |  Min ns |  RMS ns  |  Max ns |   Sum ns  | Speedup |
+:-------------|--------:|---------:|--------:|----------:|--------:|
+null          |   0.923 |     0.938 |    1.096 |    15.932 | ×115.524 |
+d2sci_32v     |   1.321 |     1.337 |    1.343 |    22.736 | ×80.952 |
+d2sci_32      |   1.334 |     1.339 |    1.366 |    22.771 | ×80.829 |
+d2sci         |   3.223 |     3.257 |    3.323 |    55.359 | ×33.247 |
+erthink       |   2.592 |     5.313 |    7.165 |    87.903 | ×20.938 |
+ryu           |   6.024 |     7.896 |   10.344 |   132.306 | ×13.911 |
+erthink_shodan|   6.121 |    12.556 |   18.228 |   203.287 | ×9.054  |
+emyg          |   6.774 |    14.998 |   19.376 |   247.923 | ×7.424  |
+milo          |   7.277 |    15.855 |   20.822 |   261.932 | ×7.027  |
+floaxie       |  13.737 |    19.740 |   23.943 |   332.085 | ×5.542  |
+doubleconv    |  18.585 |    26.049 |   31.350 |   439.164 | ×4.191  |
+grisu2        |  17.934 |    26.161 |   31.528 |   439.661 | ×4.186  |
+fmt           |  21.558 |    26.790 |   35.878 |   451.587 | ×4.076  |
+fpconv        |  17.780 |    30.763 |   42.612 |   506.047 | ×3.637  |
+stb           |  32.877 |    40.671 |   53.938 |   687.253 | ×2.678  |
+sprintf       |  63.821 |   112.678 |  170.708 |  1840.524 | ×1.000  |
+ostringstream | 116.296 |   168.704 |  250.826 |  2802.831 | ×0.657  |
+ostrstream    | 138.575 |   184.177 |  229.718 |  3089.879 | ×0.596  |
+Benchmarking      random d2sci... Done
+Benchmarking      random d2sci_32... Done
+Benchmarking      random d2sci_32v... Done
+Benchmarking      random doubleconv... Done
+Benchmarking      random emyg... Done
+Benchmarking      random erthink... Done
+Benchmarking      random erthink_shodan... Done
+Benchmarking      random floaxie... Done
+Benchmarking      random fmt... Done
+Benchmarking      random fpconv... Done
+Benchmarking      random grisu2... Done
+Benchmarking      random milo... Done
+Benchmarking      random null... Done
+Benchmarking      random ostringstream... Done
+Benchmarking      random ostrstream... Done
+Benchmarking      random ryu... Done
+Benchmarking      random sprintf... Done
+Benchmarking      random stb... Done
+Function      |   Sum ns  | Speedup |
+:-------------|----------:|--------:|
+null          |     0.925 | ×300.319 |
+d2sci_32v     |     1.337 | ×207.793 |
+d2sci_32      |     1.337 | ×207.717 |
+d2sci         |     3.275 | ×84.807 |
+ryu           |    14.586 | ×19.040 |
+erthink       |    16.533 | ×16.798 |
+erthink_shodan|    17.815 | ×15.589 |
+emyg          |    21.113 | ×13.154 |
+milo          |    22.750 | ×12.207 |
+floaxie       |    23.535 | ×11.800 |
+grisu2        |    35.140 | ×7.903  |
+doubleconv    |    39.358 | ×7.056  |
+fmt           |    39.548 | ×7.022  |
+fpconv        |    43.276 | ×6.417  |
+stb           |    58.228 | ×4.769  |
+sprintf       |   277.717 | ×1.000  |
+ostrstream    |   382.151 | ×0.727  |
+ostringstream |   419.412 | ×0.662  |
+Benchmarking randomdigit d2sci... Done
+Benchmarking randomdigit d2sci_32... Done
+Benchmarking randomdigit d2sci_32v... Done
+Benchmarking randomdigit doubleconv... Done
+Benchmarking randomdigit emyg... Done
+Benchmarking randomdigit erthink... Done
+Benchmarking randomdigit erthink_shodan... Done
+Benchmarking randomdigit floaxie... Done
+Benchmarking randomdigit fmt... Done
+Benchmarking randomdigit fpconv... Done
+Benchmarking randomdigit grisu2... Done
+Benchmarking randomdigit milo... Done
+Benchmarking randomdigit null... Done
+Benchmarking randomdigit ostringstream... Done
+Benchmarking randomdigit ostrstream... Done
+Benchmarking randomdigit ryu... Done
+Benchmarking randomdigit sprintf... Done
+Benchmarking randomdigit stb... Done
+Function      |  Min ns |  RMS ns  |  Max ns |   Sum ns  | Speedup |
+:-------------|--------:|---------:|--------:|----------:|--------:|
+null          |   0.930 |     0.932 |    0.935 |    15.850 | ×282.663 |
+d2sci_32v     |   1.329 |     1.376 |    1.572 |    23.353 | ×191.852 |
+d2sci_32      |   1.342 |     1.447 |    1.849 |    24.450 | ×183.239 |
+d2sci         |   3.252 |     3.368 |    3.761 |    57.215 | ×78.306 |
+erthink       |   6.962 |    12.890 |   17.109 |   212.053 | ×21.128 |
+erthink_shodan|   8.430 |    13.831 |   17.479 |   230.079 | ×19.473 |
+emyg          |   8.594 |    16.835 |   21.264 |   279.966 | ×16.003 |
+milo          |   9.037 |    17.825 |   22.730 |   295.592 | ×15.157 |
+floaxie       |  12.304 |    19.648 |   24.938 |   328.066 | ×13.657 |
+ryu           |  14.273 |    20.209 |   24.616 |   339.291 | ×13.205 |
+grisu2        |  20.396 |    28.280 |   34.714 |   474.328 | ×9.445  |
+doubleconv    |  20.072 |    30.004 |   39.058 |   502.030 | ×8.924  |
+fmt           |  21.311 |    30.936 |   38.803 |   519.048 | ×8.632  |
+fpconv        |  19.547 |    34.059 |   43.003 |   566.731 | ×7.905  |
+stb           |  54.157 |    56.933 |   58.209 |   967.662 | ×4.630  |
+sprintf       | 234.401 |   263.853 |  280.945 |  4480.240 | ×1.000  |
+ostrstream    | 313.371 |   344.301 |  370.706 |  5847.064 | ×0.766  |
+ostringstream | 356.957 |   383.158 |  414.699 |  6504.801 | ×0.689  |
