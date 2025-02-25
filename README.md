@@ -52,7 +52,7 @@ Some API need CPU support AVX512 instruction set.
    These two functions have the same output.
 ~~~~~~~~cpp
 int d2sci(double value, char* buffer);//need avx512 instruction set
-int d2s_sse(double value, char *buffer);//need sse instruction set
+int d2sci_sse(double value, char *buffer);//need sse instruction set
 ~~~~~~~~
 ~~~~~~~~cpp
 //example
