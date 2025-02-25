@@ -3,7 +3,7 @@
 # dtoa Benchmark
 
 Copyright(c) 2019-2020 Leonid Yuriev <leo@yuriev.ru>,
-Copyright(c) 2014 Milo Yip <miloyip@gmail.com>
+Copyright(c) 2014 Milo Yip <miloyip@gmail.com>,
 Author's e-mail address : 1302035400@qq.com
 
 ## Preamble
