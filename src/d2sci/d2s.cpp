@@ -2,7 +2,6 @@
 #include "itoa_sse2.cpp"
 #include "yy.cpp"
 #include "d2sci_table.h"
-//#include <iostream>
 
 using u64 = unsigned long long;
 using i64 = long long;
@@ -138,13 +137,12 @@ extern "C" int d2s_avx512(double v, char *buffer)
 
     // this code base on Schubafach algorithm
     // avx512 implementation
-    // when input double is seq integer , may not efficient
-    // I have limited time, so the code may have bugs and the performance may not be optimal.
+    // I have limited time, so the performance may not be optimal.
 
     // performance test result
     // when input double is random
     // CPU : AMD R7 7840H ; use icpx 2025.0.4 -O3 compile this func
-    // performance: this func cost 12.5ns per double , 1.78x faster than dragonbox , 2x faster than schubafach
+    // performance: this func cost 12ns per double , 1.83x faster than dragonbox , 2.08x faster than schubafach
     // dragonbox  cost 22ns per double
     // schubafach cost 25ns per double
     // ryu        cost 27ns per double
@@ -152,7 +150,6 @@ extern "C" int d2s_avx512(double v, char *buffer)
     // return write buffer length
     // recommend set buffer length is 32 byte;
 
-    // my email 1302035400@qq.com
     // this func may has any bug , if you find bug please report
     // if you can improve this code performance,you can also report
 
@@ -825,7 +822,6 @@ extern "C" int d2s_avx512(double v, char *buffer)
         buffer[0] = '-';
         return sign + u64toa_sse2(v_to_u64, buffer + sign);
 #endif
-        // itoa function from https://github.com/miloyip/itoa-benchmark
     }
 #endif
     buffer[0] = '-';
@@ -1084,9 +1080,8 @@ extern "C" int d2s_sse(double v, char *buffer)
     //============ README start===========
 
     // this code base on Schubafach algorithm
-    // sse implementation max use sse4.1
-    // when input double is seq integer , may not efficient
-    // I have limited time, so the code may have bugs and the performance may not be optimal.
+    // sse implementation
+    // I have limited time, so the performance may not be optimal.
 
     // performance test result
     // when input double is random
@@ -1098,10 +1093,6 @@ extern "C" int d2s_sse(double v, char *buffer)
 
     // return write buffer length
     // recommend set buffer length is 32 byte;
-
-    // my email 1302035400@qq.com
-    // this func may has any bug , if you find bug please email me
-    // if you can improve this code performance,you can also email me
 
     // input double v range and print result ;
     // range       : double v ->   print result
@@ -1772,7 +1763,6 @@ extern "C" int d2s_sse(double v, char *buffer)
         buffer[0] = '-';
         return sign + u64toa_sse2(v_to_u64, buffer + sign);
 #endif
-        // itoa function from https://github.com/miloyip/itoa-benchmark
     }
 #endif
     buffer[0] = '-';

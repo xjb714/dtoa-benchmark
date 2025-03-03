@@ -1,6 +1,9 @@
-run envvironment:
+Author information is not included and is retained by third-party authors.
 
-[1]software env：Linux; g++ support c++ 20;
+
+run environment:
+
+[1]software env：Linux; compiler support c++ 20;
 
 [2]hardware env：CPU support avx512
                 example:

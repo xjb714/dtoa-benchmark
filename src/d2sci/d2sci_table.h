@@ -8,6 +8,6 @@ extern const long long exp_result3[324 + 308 + 1] ;
 
 extern const unsigned long long seq_exp_result3[324 + 308 + 1] ;
 
-//extern const int digit1000e[1000] ;
+extern const int digit1000e[1000] ;
 
-//extern const short short_array[100];
+extern const short digit100[100];

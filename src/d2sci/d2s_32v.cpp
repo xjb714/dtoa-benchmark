@@ -1031,7 +1031,7 @@ void d2s_32v_impl(double *v, char **buffer)
             }
         }
 }
-extern "C" void d2s_32v(double *value,char** buffer)//icx
+extern "C" void d2s_32v(double *value,char** buffer)//compile by icx
 {
 	d2s_32v_impl(value,buffer);
 }
