@@ -297,7 +297,7 @@ The steps to compile and run are as follows:
 4. `cd build`
 5. `cmake ..`
 6. `make -j`
-7. `./dtoa-benchmark`
+7. `./d2a-benchmark`
 8. The result appears in the running program directory.
 
 
