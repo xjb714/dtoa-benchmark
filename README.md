@@ -58,7 +58,7 @@ Some API need CPU support AVX512 instruction set.
    All functions have the same output.
 ~~~~~~~~cpp
 int d2sci           (double value, char* buffer);//need avx512 instruction set,same as d2sci_avx512_lut
-int d2sci_sse       (double value, char *buffer);//need sse instruction set
+int d2sci_sse       (double value, char* buffer);//need sse instruction set
 int d2sci_avx512    (double value, char* buffer);//need avx512 instruction set
 int d2sci_avx512_lut(double value, char* buffer);//need avx512 instruction set
 int d2sci_lut       (double value, char* buffer);//use more look up table
@@ -72,7 +72,7 @@ int len = d2sci(v,buf);
 printf("len=%d,%s",len,buf);//len=22,1.3000000000000000e+00
 //special value: when v is 1e-323 print 0.9881312916824931e-323
 ~~~~~~~~
-1. Continuously print 32 double values to the buffer.
+2. Continuously print 32 double values to the buffer.
 The print result of each double value contains 17 digits.
 return write buffer length;
 ~~~~~~~~cpp
