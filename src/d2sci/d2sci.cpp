@@ -187,21 +187,31 @@ inline int d2sci_impl(double value, char *buffer)
         ull low8 = num0_rest - high9 * (ll)(1e8); // 0<= low8 < 1e8
         length += ((e10 >= 100) | (e10 <= -100));
 
-        ull num123_456789 = high9 * 1125899907ull;
-        ull num123 = num123_456789 >> 50;
-        ull num456_789 = (num123_456789 & M50) * 1000ull;
-        ull num456 = num456_789 >> 50;
-        ull num789 = ((num456_789 & M50) * 1000ull) >> 50;
+        // ull num123_456789 = high9 * 1125899907ull;
+        // ull num123 = num123_456789 >> 50;
+        // ull num456_789 = (num123_456789 & M50) * 1000ull;
+        // ull num456 = num456_789 >> 50;
+        // ull num789 = ((num456_789 & M50) * 1000ull) >> 50;
+
+        ull num123,num456,num789;
+        ull num456_789 = _mulx_u64(high9,18446744073710,&num123);
+        ull num_789 = _mulx_u64(num456_789,1000,&num456);
+        _mulx_u64(num_789,1000,&num789);
 
         *(int *)&buffer[index + 0] = digit_000_999[num123]; // 4
         *(int *)&buffer[index + 4] = digit1000e[num456];    // 3
         *(int *)&buffer[index + 7] = digit1000e[num789];    // 3
 
-        ull num12_345678 = low8 * 1125899907ull;
-        ull num12 = num12_345678 >> 50;
-        ull num345_678 = (num12_345678 & M50) * 1000ull;
-        ull num345 = num345_678 >> 50;
-        ull num678 = ((num345_678 & M50) * 1000ull) >> 50;
+        // ull num12_345678 = low8 * 1125899907ull;
+        // ull num12 = num12_345678 >> 50;
+        // ull num345_678 = (num12_345678 & M50) * 1000ull;
+        // ull num345 = num345_678 >> 50;
+        // ull num678 = ((num345_678 & M50) * 1000ull) >> 50;
+
+        ull num12,num345,num678;
+        ull num345_678 = _mulx_u64(low8,18446744073710,&num12);
+        ull num_678 = _mulx_u64(num345_678,1000,&num345);
+        _mulx_u64(num_678,1000,&num678);
 
         *(short *)&buffer[index + 10] = digit100[num12];  // 2
         *(int *)&buffer[index + 12] = digit1000e[num345]; // 3
