@@ -1,6 +1,7 @@
 #include <immintrin.h>
 #include "d2sci_table.h"
 #include <stdint.h>
+#include <stdio.h>
 static const unsigned int kDiv10000 = 0xd1b71759;
 static const unsigned int kDiv10000Vector[4] = {kDiv10000, kDiv10000, kDiv10000, kDiv10000};
 static const unsigned int k10000Vector[4] = {10000, 10000, 10000, 10000};
@@ -56,15 +57,16 @@ inline int d2sci_impl(double value, char *buffer)
     using u128 = __uint128_t;
     using u64 = unsigned long long;
     using i64 = long long;
+    using u32 = unsigned int;
+    using u16 = unsigned short;
     buffer[0] = '-';
     u64 value_u64 = (*(u64 *)&value);                   // as u64
     u64 index = value_u64 >> 63;                        // is neg
     u64 value_abs_u64 = value_u64 & (((u64)1 << 63) - 1); // abs u64
     i64 ieee754_exp11 = (value_abs_u64 >> 52);           // ieee_exp
-    char *ptr = (char *)&buffer[index];
     if (ieee754_exp11 == 0x7ff) // nan or inf
     {
-        *(int *)ptr = (value_abs_u64 == ((u64)0x7ff << 52)) ? *(int *)"inf" : *(int *)"nan";
+        *(int *)&buffer[index] = (value_abs_u64 == ((u64)0x7ff << 52)) ? *(int *)"inf" : *(int *)"nan";
         return index + 3;
     }
     u64 f;
@@ -78,7 +80,7 @@ inline int d2sci_impl(double value, char *buffer)
     {
         if (value_abs_u64 == 0)
         {
-            *(short *)ptr = *(short *)"0";
+            *(short *)&buffer[index] = *(short *)"0";
             return index + 1;
         }
         u64 clz = __builtin_clzll(value_abs_u64);
@@ -129,8 +131,8 @@ inline int d2sci_impl(double value, char *buffer)
         const short idx[8] = {12, 8, 4, 0, 28, 24, 20, 16}; // 16byte
         const __m512i idxr_epi16 = _mm512_castsi128_si512(_mm_loadu_epi64(idx));
         __m512i num_8_print_finalr = _mm512_permutexvar_epi16(idxr_epi16, tmp_8_3_print); // avx512bw
-        *(short *)ptr = high1 | ('.' * 256 + '0');
-        _mm_storeu_si128((__m128i *)(ptr + 2), _mm512_extracti32x4_epi32(num_8_print_finalr, 0));
+        *(short *)&buffer[index] = high1 | ('.' * 256 + '0');
+        _mm_storeu_si128((__m128i *)&buffer[index+2], _mm512_extracti32x4_epi32(num_8_print_finalr, 0));
     }
     if (alg == 2)                               // avx512+lut
     {                                           // way 2
@@ -162,10 +164,10 @@ inline int d2sci_impl(double value, char *buffer)
         const short idx[8] = {12, 8, 4, 28, 24, 20, 16, (short)(0)};
         const __m512i idxr_epi16 = _mm512_castsi128_si512(_mm_loadu_epi64(idx));
         __m512i num_8_print_finalr = _mm512_permutexvar_epi16(idxr_epi16, tmp_8_3_print);               // avx512bw
-        _mm_storeu_si128((__m128i *)(ptr + 4), _mm512_extracti32x4_epi32(num_8_print_finalr, 0));       // 1,0 ; low128bit:xmm ; mov xmm to memory
-        *(int *)ptr = digit_000_999[_mm_extract_epi64(_mm512_extracti32x4_epi32(tmp_8_1_print, 0), 0)]; // result_8[0],xmm; 0.00 -> 9.99
-        const i64 *exp_ptr = &exp_result3[324];
-        *(i64 *)(ptr + 18) = exp_ptr[e10];
+        _mm_storeu_si128((__m128i *)&buffer[index+4], _mm512_extracti32x4_epi32(num_8_print_finalr, 0));       // 1,0 ; low128bit:xmm ; mov xmm to memory
+        *(u32 *)&buffer[index] = digit_000_999[_mm_extract_epi64(_mm512_extracti32x4_epi32(tmp_8_1_print, 0), 0)]; // result_8[0],xmm; 0.00 -> 9.99
+        const u64 *exp_ptr = &exp_result3[324];
+        *(u64 *)&buffer[index + 18] = exp_ptr[e10];
         return length; // write char length
     }
     if (alg == 3) // lut
@@ -173,26 +175,54 @@ inline int d2sci_impl(double value, char *buffer)
         u64 high9 = num0_rest_mul2 / (u64)(2e8); // 1e8 <= high9 < 1e9
         u64 num0_rest = (num0_rest_mul2) >> 1;
         u64 low8 = num0_rest - high9 * (u64)(1e8); // 0<= low8 < 1e8
-        length = (index | 22) + ((e10 >= 100) | (e10 <= -100)) ;
+        length = (index | 22) + ((e10 >= 100) | (e10 <= -100));
 
         u64 num123 = ((u128)(high9) * (18446744073710)) >> 64;
-        *(int *)&buffer[index += 0] = digit_000_999[num123]; // 4
+        *(u32 *)&buffer[index + 0] = digit_000_999[num123]; // 4
         u64 num456_789 = ((u128)(high9) * (18446744073710));
         u64 num456 = ((u128)(num456_789) * (1000)) >> 64;
-        *(int *)&buffer[index += 4] = digit1000e[num456];    // 3
-        u64 num789 = ((u64)((u128)(num456_789) * (1000)) * (u128)(1000)) >> 64;
-        *(int *)&buffer[index += 3] = digit1000e[num789];    // 3
-        
+        *(u32 *)&buffer[index + 4] = digit1000[num456];    // 3
+        u64 num789 = ((u64)((u128)(num456_789) * (1000)) * (u128)(1000)) >> 64;        
+        *(u32 *)&buffer[index + 7] = digit1000[num789];    // 3
+
         u64 num12 = ((u128)(low8) * (18446744073710)) >> 64;
-        *(short *)&buffer[index += 3] = digit100[num12];  // 2
+        *(u16 *)&buffer[index + 10] = digit100[num12];  // 2
         u64 num345_678 = ((u128)(low8) * (18446744073710));
         u64 num345 = ((u128)(num345_678) * (1000)) >> 64;
-        *(int *)&buffer[index += 2] = digit1000e[num345]; // 3
+        *(u32 *)&buffer[index + 12] = digit1000[num345]; // 3
         u64 num678 = ((u64)((u128)(num345_678) * (1000)) * (u128)(1000)) >> 64;
-        *(int *)&buffer[index += 3] = digit1000e[num678]; // 3
+        *(u32 *)&buffer[index + 15] = digit1000[num678]; // 3
+
+        // u64 high8 = num0_rest_mul2 / (u64)(2e9); // 1e8 <= high9 < 1e9
+        // u64 num0_rest = (num0_rest_mul2) >> 1;
+        // u64 low9 = num0_rest - high8 * (u64)(1e9); // 0<= low8 < 1e8
+        // length = (index | 22) + ((e10 >= 100) | (e10 <= -100));
+
+        // u64 num123 = ((u128)(high8) * (18446744073710)) >> 64;
+        // //*(u32 *)&buffer[index + 0] = digit_00_99[num123]; // 4
+        // u64 num456_789 = ((u128)(high8) * (18446744073710));
+        // u64 num456 = ((u128)(num456_789) * (1000)) >> 64;
+        // //*(u32 *)&buffer[index + 3] = digit1000e[num456];    // 3
+        // //*(u64 *)&buffer[index] = digit_00_99[num123] | ((u64)digit1000[num456]<<24);
+        // u64 num789 = ((u64)((u128)(num456_789) * (1000)) * (u128)(1000)) >> 64;
+        // //*(u32 *)&buffer[index + 6] = digit1000e[num789];    // 3
+        // *(u64 *)&buffer[index] = digit_00_99[num123] | ((u64)digit1000[num456]<<24) | ((u64)digit1000[num789]<<48);
+        
+        // u64 num12 = ((u128)(low9) * (18446744073710)) >> 64;
+        // //*(u32 *)&buffer[index + 9] = digit1000e[num12];  // 2
+        // //*(u64 *)&buffer[index+6] = digit1000[num789] | ((u64)digit1000[num12]<<24);
+        
+        // u64 num345_678 = ((u128)(low9) * (18446744073710));
+        // u64 num345 = ((u128)(num345_678) * (1000)) >> 64;
+        // *(u64 *)&buffer[index + 8] = (digit1000[num789]>>16) | ((u64)digit1000[num12]<<8) | ((u64)digit1000[num345]<<32);
+        // //*(u32 *)&buffer[index + 12] = digit1000e[num345]; // 3
+        // //*(i64*)&buffer[index + 10] = (i64)digit100[num12] | ((i64)digit1000e[num345] << 16) ;
+        // u64 num678 = ((u64)((u128)(num345_678) * (1000)) * (u128)(1000)) >> 64;
+        // *(u32 *)&buffer[index + 15] = digit1000[num678]; // 3
+        // //*(u64 *)&buffer[index+12] = digit1000[num345] | ((u64)digit1000[num678]<<24);
     }
-    const i64 *exp_ptr = &exp_result3[324];
-    *(i64 *)(ptr + 18) = exp_ptr[e10];
+    const u64 *exp_ptr = &exp_result3[324];
+    *(u64 *)&buffer[index + 18] = exp_ptr[e10];
     return length; // write char length
 }
 
@@ -246,16 +276,16 @@ inline int d2sci_sse_impl(double value, char *buffer)
     u64 high1 = num0_rest_mul2 / (u64)(2e16);
     u64 length = index | 22;
     u64 num0_rest = (num0_rest_mul2) >> 1;
-    u64 low8 = num0_rest - high9 * (u64)(1e8); // 0<= low8 < 1e8
-    u64 high2_9 = high9 - high1 * (u64)(1e8);  // 0<= high2_9 < 1e8
+    u64 low8 = num0_rest - high9 * (u64)(1e8); // 0 <= low8 < 1e8
+    u64 high2_9 = high9 - high1 * (u64)(1e8);  // 0 <= high2_9 < 1e8
     const __m128i a0 = Convert8DigitsSSE2((unsigned int)high2_9);
     const __m128i a1 = Convert8DigitsSSE2((unsigned int)low8);
     const __m128i va = _mm_or_si128(_mm_packus_epi16(a0, a1), _mm_set1_epi8('0'));
     length += ((e10 >= 100) | (e10 <= -100));
     *(short *)ptr = high1 | ('.' * 256 + '0');
     _mm_storeu_si128((__m128i *)(ptr + 2), va);
-    const i64 *exp_ptr = &exp_result3[324];
-    *(i64 *)(ptr + 18) = exp_ptr[e10];
+    const u64 *exp_ptr = &exp_result3[324];
+    *(u64 *)(ptr + 18) = exp_ptr[e10];
     return length; // write char length
 }
 extern "C" int d2sci(double value, char *buffer)

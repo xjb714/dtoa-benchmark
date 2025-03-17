@@ -74,24 +74,28 @@ inline void my_dou_to_sci_avx512_pure9(double *value, char **buffer)
                                                         _mm512_set1_pd(1e-8 /* _10en[-Precision + 8 + 324] */)));                                     // 1e17/1e8 = 9 digit
     FORI low8_8[i] = _mm512_sub_epi64(num0_rest_8[i], _mm512_mullo_epi64(high9_8[i], _mm512_set1_epi64(1e8 /*int64_t(_10en[Precision - 8 + 324]*/))); // 1e17%1e8 = 8 digit
     FORI FORJ buffer[i * group + j][0] = '-';
-    const i64 *exp_ptr = &exp_result3[324 + 1 - one_zero];
+    const u64 *exp_ptr = &exp_result3[324 + 1 - one_zero];
     for (int i = 0; i < group_count / 2; ++i)
     {
         const __m512i DIGIT_ZERO_8 = _mm512_set1_epi64(0x3030303030303030ull); // '0' = 0x30 = 48
         // const __m512i M24_16 = _mm512_set1_epi32((1 << 24) - 1); // low 24 bit in 32 bit
         const __m512i L8_16 = _mm512_set1_epi32(0xFF000000u); // high 8 bit in 32bit
-        __m512i num1[2], num_low16[4],  num1234_8[4], num5678_8[4],  num_tmp[4];
+        __m512i num1[2], num_low16[4],  num1234_8[4], num5678_8[4], num_tmp[4];
         __m512i num5678_1234_merge_8[4];
         __m512i num_final[4] = {_mm512_set1_epi32(0)};
         u64 num1_print[8 * 2];      // "1."
         u64 num_low16_print[8 * 4]; // low16 digtit
 
-        FORJ2 num1[j] = _mm512_srli_epi64(_mm512_mullo_epi64(high9_8[i * 2 + j], _mm512_set1_epi64(1441151881)), 57);    // 1441151881 = 2**57 / 1e8
+        //FORJ2 num1[j] = _mm512_srli_epi64(_mm512_mullo_epi64(high9_8[i * 2 + j], _mm512_set1_epi64(1441151881)), 57);    // 1441151881 = 2**57 / 1e8
+        FORJ2 num1[j] = _mm512_srli_epi64(_mm512_mul_epu32(high9_8[i * 2 + j], _mm512_set1_epi64(1441151881)), 57);    // 1441151881 = 2**57 / 1e8
         FORJ2 _mm512_storeu_epi64(&num1_print[j * 8], _mm512_or_epi64(num1[j], _mm512_set1_epi64('.' * 256 + '0')));     // num1 | ('.' * 256 + '0')
-        FORJ2 num_low16[j] = _mm512_sub_epi64(high9_8[i * 2 + j], _mm512_mullo_epi64(num1[j], _mm512_set1_epi64(1e8)));  // num_2_9 = high9 - num1*1e8
+        //FORJ2 num_low16[j] = _mm512_sub_epi64(high9_8[i * 2 + j], _mm512_mullo_epi64(num1[j], _mm512_set1_epi64(1e8)));  // num_2_9 = high9 - num1*1e8
+        FORJ2 num_low16[j] = _mm512_sub_epi64(high9_8[i * 2 + j], _mm512_mul_epu32(num1[j], _mm512_set1_epi64(1e8)));  // num_2_9 = high9 - num1*1e8
         FORJ2 num_low16[2 + j] = low8_8[i * 2 + j];                                                                      // num_10_17 = low8
-        FORJ4 num1234_8[j] = _mm512_srli_epi64(_mm512_mullo_epi64(num_low16[j], _mm512_set1_epi64(28147497672ull)), 48); // num1234 = num_low8 / 1e4 = num_low8 * 28147497672 >> 48
-        FORJ4 num5678_8[j] = _mm512_sub_epi64(num_low16[j], _mm512_mullo_epi64(num1234_8[j], _mm512_set1_epi64(10000))); // num5678 = num_low8 - num1234*1e4
+        //FORJ4 num1234_8[j] = _mm512_srli_epi64(_mm512_mullo_epi64(num_low16[j], _mm512_set1_epi64(28147497672)), 48); // num1234 = num_low8 / 1e4 = num_low8 * 28147497672 >> 48
+        FORJ4 num1234_8[j] = _mm512_srli_epi64(_mm512_mul_epu32(num_low16[j], _mm512_set1_epi64(109951163)), 40); // num1234 = num_low8 / 1e4 = num_low8 * 109951163 >> 40
+        //FORJ4 num5678_8[j] = _mm512_sub_epi64(num_low16[j], _mm512_mullo_epi64(num1234_8[j], _mm512_set1_epi64(10000))); // num5678 = num_low8 - num1234*1e4
+        FORJ4 num5678_8[j] = _mm512_sub_epi64(num_low16[j], _mm512_mul_epu32(num1234_8[j], _mm512_set1_epi64(10000))); // num5678 = num_low8 - num1234*1e4
         FORJ4 num5678_1234_merge_8[j] = _mm512_or_epi64(_mm512_slli_epi64(num5678_8[j], 32), num1234_8[j]);
         // FORJ4 num5678_1234_merge_8[j] = _mm512_mask_shuffle_epi32(num1234_8[j], (__mmask16)0b1010101010101010, num5678_8[j], _MM_PERM_CAAA);//another way
         FORJ4 num_tmp[j] = _mm512_mullo_epi32(num5678_1234_merge_8[j], _mm512_set1_epi32(16778)); // num1234 / 1e3 = num1234 * 16778 >> 24
@@ -107,17 +111,17 @@ inline void my_dou_to_sci_avx512_pure9(double *value, char **buffer)
             char *buf_ptr1 = value_write_ptr[i * 2 * group + j];
             *(u64 *)(buf_ptr1) = num1_print[j];                                                                                  // write 8 byte but only low 2 byte use;
             _mm_storeu_si128((__m128i *)(buf_ptr1 + 2), _mm_set_epi64x(num_low16_print[2 * 8 + j], num_low16_print[0 * 8 + j])); // write 16byte
-            *(i64 *)(buf_ptr1 + 18) = exp_ptr[e10[2 * i * group + j]];                                                           // e10 print result
+            *(u64 *)(buf_ptr1 + 18) = exp_ptr[e10[2 * i * group + j]];                                                           // e10 print result
 
             char *buf_ptr2 = value_write_ptr[(i * 2 + 1) * group + j];
             *(u64 *)(buf_ptr2) = num1_print[8 + j];
             _mm_storeu_si128((__m128i *)(buf_ptr2 + 2), _mm_set_epi64x(num_low16_print[3 * 8 + j], num_low16_print[1 * 8 + j])); // write 16byte
-            *(i64 *)(buf_ptr2 + 18) = exp_ptr[e10[(2 * i + 1) * group + j]];
+            *(u64 *)(buf_ptr2 + 18) = exp_ptr[e10[(2 * i + 1) * group + j]];
         }
     }
     //if(0)FORI FORJ if (value[i * group + j] == 0)*(short*)&value_write_ptr[i * group + j] = *(short*)&"0\0";  
 }
-extern "C" void d2sci_32v(double *value, char **buffer) // compile by clang++ fastest
+extern "C" void d2sci_32v(double *value, char **buffer) // compile by clang++
 {
     my_dou_to_sci_avx512_pure9<16, 8 * 4>(value, buffer);
 }

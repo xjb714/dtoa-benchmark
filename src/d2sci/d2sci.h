@@ -13,4 +13,6 @@ extern "C"{
     void d2s_32v(double* value,char** buffer);// print 32 double to 32 buffer ; shortest significant result;avx512 instruction
     int d2s_avx512(double value, char *buffer);//print 1 double to 1 buffer ; shortest significant result;avx512 instruction
     int d2s_sse(double value, char *buffer);//print 1 double to 1 buffer ; shortest significant result;sse instruction
+    int d2s_yy_sse(double value, char *buffer);//print 1 double to 1 buffer ; shortest significant result;sse instruction
+    void d2s_yy_32v(double* value,char** buffer);// print 32 double to 32 buffer ; shortest significant result;avx512 instruction
 }

@@ -38,7 +38,7 @@ void test_d2s()
     double v[8] = {1e-123,-0.0123,1.23,123,123.45,10000,1e8,1.23e100};
     char buf[32];
     for(int i=0;i<8;++i){
-        int len = d2s_avx512(v[i],buf);//d2s_sse(v[i],buf);
+        int len = d2s_sse(v[i],buf);//d2s_avx512(v[i],buf);
         printf("len=%d,%s\n",len,buf);
     }
 }
