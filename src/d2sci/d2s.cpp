@@ -1055,7 +1055,7 @@ extern "C" int d2s_avx512(double v, char *buffer)
 #endif
     buffer[0] = '-';
     buffer += sign;
-    if (exp == 0x7ff)
+    if (exp == 0x7ff) [[unlikely]]
     {
         *(int *)buffer = frac ? *(int *)"nan" : *(int *)"inf";
         return sign + 3;
@@ -1068,7 +1068,7 @@ extern "C" int d2s_avx512(double v, char *buffer)
     u64 normal = (exp > 0);
     u64 c;
     ll q;
-    if (normal) // [[likely]]
+    if (normal) [[likely]]
     {
         c = frac | (1ull << 52);
         q = exp - 1075;
@@ -1151,15 +1151,10 @@ extern "C" int d2s_avx512(double v, char *buffer)
     u64 sp;
     _mulx_u64(1844674407370955162ull, s, &sp); // sp = s/10
     u64 sp10 = sp * 10;
-    u64 digit_out = s;
-    // s += ((((vb & -4) < lower) | ((vb | 3) < (upper))) | (0b11001000 >> (vb & 7)) & 1); // s or s + 1
-    digit_out += (((vb & -4) < lower) |
-                  ((vb | 3) < upper) |
-                  ((vb & 3) == 3) |
-                  ((vb & 7) == 6)); // s or s + 1
+    u64 digit_out = s + (((vb & -4) < (lower < (upper - 3) ? lower : (upper - 3))) | ((0b11001000 >> (vb & 7)) & 1));
     if (lower <= sp10 * 4)
         digit_out = sp10;
-    if ((sp10 + 10) * 4 <= upper)
+    if (sp10 * 4 + 40 - 3 <= upper - 3)
         digit_out = sp10 + 10;
     // compute digit_out and k end; then print to buffer
     // result = digit_out * 10^k
@@ -2015,7 +2010,7 @@ extern "C" int d2s_sse(double v, char *buffer)
     u64 normal = (exp > 0);
     u64 c;
     ll q;
-    if (normal) // [[likely]]
+    if (normal) [[likely]]
     {
         c = frac | (1ull << 52);
         q = exp - 1075;
@@ -2078,15 +2073,9 @@ extern "C" int d2s_sse(double v, char *buffer)
     u64 sp;
     _mulx_u64(1844674407370955162ull, s, &sp); // sp = s/10
     u64 sp10 = sp * 10;
-    u64 digit_out = s;
-    digit_out += (((vb & -4) < lower) |
-                  ((vb | 3) < upper) |
-                  ((vb & 3) == 3) |
-                  ((vb & 7) == 6)); // s or s + 1
-    if (lower <= sp10 * 4)
-        digit_out = sp10;
-    if (sp10 * 4 + 40 <= upper)
-        digit_out = sp10 + 10;
+    u64 digit_out = s + (((vb & -4) < (lower < (upper - 3) ? lower : (upper - 3))) | ((0b11001000 >> (vb & 7)) & 1));
+    if (lower <= sp10 * 4)digit_out = sp10;
+    if (sp10 * 4 + 40 - 3 <= upper - 3)digit_out = sp10 + 10;
     // compute digit_out and k end; then print to buffer
     // result = digit_out * 10^k
     ll e10 = k;
