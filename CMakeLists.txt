@@ -222,5 +222,5 @@ if(DEFINED CXX_STANDARD)
   target_compile_features(d2a-benchmark PRIVATE cxx_std_11)
 endif()
 
-target_link_directories(d2a-benchmark PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}//src//d2sci")
-target_link_libraries(d2a-benchmark d2sci2)
+#target_link_directories(d2a-benchmark PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}//src//d2sci")
+#target_link_libraries(d2a-benchmark d2sci2)

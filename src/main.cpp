@@ -15,8 +15,10 @@
 #include <cstdlib>
 #include <random>
 #include <iostream>
-#include <immintrin.h>
-#include <cpuid.h>
+//#include <immintrin.h>
+#if defined(__amd64__)
+  #include <cpuid.h>
+#endif
 
 const unsigned kVerifyRandomCount = 100000;
 const unsigned kIterations = 2048 * 64;
@@ -669,6 +671,7 @@ void TestManager::PrintScores(FILE*fp,Score score, bool SkipWorseThanBaseline) c
   }
 }
 void GetCPUInfo() {
+#if defined(__amd64__)
     char cpuString[0x40]={0}; // 存放CPU信息字符串
     // 获取 CPU 名称
     unsigned int *ptr = (unsigned int*)cpuString;
@@ -678,6 +681,7 @@ void GetCPUInfo() {
     cpuString[0x40-1] = '\0'; // 确保字符串结束
     std::cout << "CPU Name: " << cpuString << std::endl;
     cpuName = std::string(cpuString);
+#endif
 }
 int main() {
   TestManager::Instance().Sort();

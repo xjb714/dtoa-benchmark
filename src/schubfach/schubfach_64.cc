@@ -20,7 +20,7 @@
 #if _MSC_VER
     #include <intrin.h>
 #endif
-#include<immintrin.h>
+//#include<immintrin.h>
 #include<iostream>
 
 #ifndef SF_ASSERT
