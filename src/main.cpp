@@ -21,7 +21,7 @@
 const unsigned kVerifyRandomCount = 100000;
 const unsigned kIterations = 2048 * 64;
 const unsigned kRandomCount = 2048 * 64;// equal to kIterations
-const unsigned kTrial = 10;
+const unsigned kTrial = 3;
 const int kMaxDigits = 17;//can not change;
 
 std::random_device rd; // 用于获取种子

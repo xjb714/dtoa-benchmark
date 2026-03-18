@@ -12,10 +12,10 @@ set(CMAKE_CXX_STANDARD 20)
 project(d2a-benchmark C CXX)
 
 # set(CMAKE_CXX_COMPILER g++-14)
-# set(CMAKE_CXX_COMPILER clang++)
-# set(CMAKE_CXX_COMPILER icpx)
+set(CMAKE_CXX_COMPILER clang++)
+#set(CMAKE_CXX_COMPILER icpx)
 
-add_compile_options(-O3 -mavx512f -march=native -funroll-loops)
+add_compile_options(-O3 -march=native)
 
 #
 # Set default build type to Release. This is to ease a User's life.
@@ -58,8 +58,13 @@ set(SOURCES
   src/emygtest.cpp
 
   #src/d2sci/d2sci.cpp
-  src/d2sci/d2sci.h
-  src/d2sci_test.cpp
+  #src/d2sci/d2sci.h
+  #src/d2sci_test.cpp
+
+  src/ffp/ffp.cpp
+  src/ffp/ffp.h
+  src/ffp_test.cpp
+
 
   src/erthink/erthink.h
   src/erthink/erthink_arch.h
